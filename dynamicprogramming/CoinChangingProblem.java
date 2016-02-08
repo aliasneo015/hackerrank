@@ -20,26 +20,15 @@ public class Solution {
     }
     
     public static Long solve(int N, int M, List<Integer> nums) {
-        Long[][] A = new Long[M][N+1];
-        
-
+        long[] A = new long[N+1];
+        A[0] = 1L;
         for (int i=0; i<M ; ++i) {
-            for (int j=0; j<=N; ++j) {
-                if (j==0) {
-                    A[i][j] = 1L;
-                    continue;
-                }
-                int play = nums.get(i);
-                Long withoutCoin = (i > 0)
-                                ? A[i-1][j]
-                                : 0;
-                Long withCoin = (j>=play)
-                              ? A[i][j-play]
-                              : 0;
-                A[i][j] = withCoin + withoutCoin;
+            int play = nums.get(i);
+            for (int j=play; j<=N; ++j) {
+                    A[j] += A[j-play];
             }
         }
         
-        return A[M-1][N];
+        return A[N];
     }
 }
